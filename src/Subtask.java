@@ -1,10 +1,16 @@
 public class Subtask extends Task {
 
-    public Subtask(int epicID, String name, String description) {
-        super();
-        this.id = epicID;
-        this.name = name;
-        this.description = description;
 
+    public Subtask(String name, String description) {
+        super(name, description);
+    }
+    @Override
+    public String toString() {
+        return "Subtask{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                '}';
     }
 }
