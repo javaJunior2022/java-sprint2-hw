@@ -1,3 +1,9 @@
+import manager.TaskManager;
+import model.Epic;
+import model.Status;
+import model.Subtask;
+import model.Task;
+
 public class Main {
     public static void main(String[] args) {
         Task task1=new Task("task1","description task1");
@@ -27,7 +33,7 @@ public class Main {
         TaskManager.addNewSubtask(subtask1);
         TaskManager.addNewSubtask(subtask2);
         TaskManager.addNewSubtask(subtask3);
-        TaskManager.updateTaskStatus(task1,Status.DONE);
+        TaskManager.updateTaskStatus(task1, Status.DONE);
         TaskManager.updateTaskStatus(task2,Status.IN_PROGRESS);
         System.out.println(TaskManager.getTasksList());
         TaskManager.updateSubtaskStatus (subtask1,Status.DONE);
@@ -36,7 +42,7 @@ public class Main {
         System.out.println(TaskManager.getTasksList());
         System.out.println(TaskManager.getSubtasksList());
 
-        TaskManager.updateEpicStatus(epic2);
+
         System.out.println(TaskManager.getEpicsList());
         System.out.println(TaskManager.getTasksList());
 

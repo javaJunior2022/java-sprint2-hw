@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 
 /**
@@ -25,8 +27,6 @@ public class Epic extends Task {
         }else{
             return subtasks;
         }
-
-
     }
 
     public Epic setSubtasks(ArrayList<Subtask> subtasks) {

@@ -1,3 +1,10 @@
+package manager;
+
+import model.Epic;
+import model.Status;
+import model.Subtask;
+import model.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,30 +17,32 @@ public class TaskManager {
 
     /**
      * Получение списка всех подзадач
+     *
      * @return
      */
-    public static ArrayList<Subtask> getSubtasksList(){
-        ArrayList <Subtask> subtasks = new ArrayList<>();
+    public static ArrayList<Subtask> getSubtasksList() {
+        ArrayList<Subtask> subtasks = new ArrayList<>();
         // добавляем все подзадачи из всех эпиков
-        for (Map.Entry entry:epics.entrySet()){
-            Epic epic= (Epic) entry.getValue();
+        for (Map.Entry entry : epics.entrySet()) {
+            Epic epic = (Epic) entry.getValue();
             subtasks.addAll(epic.getSubtasks());
         }
-        return  subtasks;
+        return subtasks;
     }
 
     /**
      * Удаляет все подзадачи
      */
-    public static void deleteAllSubtasks(){
-        for (Map.Entry entry:epics.entrySet()){
-            Epic epic= (Epic) entry.getValue();
+    public static void deleteAllSubtasks() {
+        for (Map.Entry entry : epics.entrySet()) {
+            Epic epic = (Epic) entry.getValue();
             epic.deleteSubtasks();
         }
     }
 
     /**
      * Добавляет новую подзадачу
+     *
      * @param subtask
      * @return
      */
@@ -76,6 +85,7 @@ public class TaskManager {
 
     /**
      * Возвращает список всех эпиков
+     *
      * @return epics
      */
     public static ArrayList<Epic> getEpicsList() {
@@ -84,40 +94,44 @@ public class TaskManager {
 
     /**
      * Возвращает эпик по идентификатору
+     *
      * @param epicID
      * @return epic
      */
-    public static Epic getEpicByID(int epicID){
-    Epic epic=epics.get(epicID);
-           return  epic;
+    public static Epic getEpicByID(int epicID) {
+        Epic epic = epics.get(epicID);
+        return epic;
     }
 
     /**
      * Возвращает подзадачи по эпику
+     *
      * @param epic
      * @return
      */
-    public static ArrayList<Subtask> getSubtasksByEpic(Epic epic){
-        return  new ArrayList<Subtask>(epic.getSubtasks());
+    public static ArrayList<Subtask> getSubtasksByEpic(Epic epic) {
+        return new ArrayList<Subtask>(epic.getSubtasks());
     }
 
     /**
      * Возвращает подзадачи по ID эпика
+     *
      * @param epicID
      * @return
      */
-    public static ArrayList<Subtask> getSubtasksByEpicID(int epicID){
-        Epic epic=getEpicByID(epicID);
+    public static ArrayList<Subtask> getSubtasksByEpicID(int epicID) {
+        Epic epic = getEpicByID(epicID);
 
-        if (epic!=null){
+        if (epic != null) {
             return epic.getSubtasks();
-        }else{
+        } else {
             return new ArrayList<Subtask>();
         }
     }
 
     /**
      * Обновление эпика
+     *
      * @param epic
      */
     public static void updateEpic(Epic epic) {
@@ -129,10 +143,11 @@ public class TaskManager {
 
     /**
      * Удаление эпика по идентификатору
+     *
      * @param epicID
      */
     public static void deleteEpicByID(int epicID) {
-        Epic epic=epics.get(epicID);
+        Epic epic = epics.get(epicID);
         if (epic != null) {
             epics.remove(epicID);
         }
@@ -140,9 +155,10 @@ public class TaskManager {
 
     /**
      * выполняет расчет статуса эпика в зависимости от статусов подзадач
+     *
      * @param epic
      */
-    public static void updateEpicStatus(Epic epic) {
+    private static void updateEpicStatus(Epic epic) {
         /**
          если у эпика нет подзадач или все они имеют статус NEW, то статус должен быть NEW.
          если все подзадачи имеют статус DONE, то и эпик считается завершённым — со статусом DONE.
@@ -172,9 +188,9 @@ public class TaskManager {
             }
         }
 
-        if (hasDone == true & hasNew == false & hasInProgress == false) {
+        if (hasDone == true && hasNew == false && hasInProgress == false) {
             status = Status.DONE;
-        } else if (hasNew == true & hasDone == false & hasInProgress == false) {
+        } else if (hasNew == true && hasDone == false && hasInProgress == false) {
             status = Status.NEW;
         } else {
             status = Status.IN_PROGRESS;
@@ -202,7 +218,7 @@ public class TaskManager {
      * возвращает задачу по указанному ID
      *
      * @param taskID
-     * @return Task
+     * @return model.Task
      */
     public static Task getTaskByID(int taskID) {
         Task task = tasks.get(taskID);
@@ -211,10 +227,11 @@ public class TaskManager {
 
     /**
      * Добавляет новую задачу
+     *
      * @param task
      * @return task
      */
-     public static Task addNewTask(Task task) {
+    public static Task addNewTask(Task task) {
         task.setId(++id);
         task.setStatus(Status.NEW);
         tasks.put(task.getId(), task);

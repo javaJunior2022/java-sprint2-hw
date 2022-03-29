@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Подзадача
  */
@@ -25,7 +27,4 @@ public class Subtask extends Task {
         this.epicID = epicID;
         return this;
     }
-
-
-
 }
