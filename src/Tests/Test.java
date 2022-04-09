@@ -48,12 +48,11 @@ public class Test {
         manager.getTaskByID(task10.getId());
 
         System.out.println("Печать истории просмотра 1");
-        HistoryManager historyManager = manager.getHistoryManager();
-        System.out.println(historyManager.getHistory());
+        System.out.println(manager.getHistory());
 
         manager.getTaskByID(task11.getId());
         System.out.println("Печать истории просмотра 2");
-        System.out.println(historyManager.getHistory());
+        System.out.println(manager.getHistory());
 
 
         Epic epic1 = new Epic("epic1", "Description epic 1");
@@ -72,7 +71,7 @@ public class Test {
         manager.getEpicByID(epic4.getId());
 
         System.out.println("Печать истории просмотра 3");
-        System.out.println(historyManager.getHistory());
+        System.out.println(manager.getHistory());
         Subtask subtask1 = new Subtask("subtask1", "description subtask 1");
         subtask1.setEpicID(epic1.getId());
         manager.addNewSubtask(subtask1);
@@ -94,8 +93,8 @@ public class Test {
         subtask5.setEpicID(epic2.getId());
         manager.addNewSubtask(subtask5);
 
-        System.out.println("Печать истории просмотра 4");
-        System.out.println(historyManager.getHistory());
+        //  System.out.println("Печать истории просмотра 4");
+        // System.out.println(manager.getHistory());
 
         manager.getSubtaskByID(subtask1.getId());
         manager.getSubtaskByID(subtask2.getId());
@@ -104,7 +103,7 @@ public class Test {
         manager.getSubtaskByID(subtask5.getId());
 
         System.out.println("Печать истории просмотра 5");
-        System.out.println(historyManager.getHistory());
+        System.out.println(manager.getHistory());
 
 
         manager.updateTaskStatus(task1, Status.DONE);
@@ -117,7 +116,7 @@ public class Test {
 
 
         System.out.println("Печать истории просмотра 6");
-        System.out.println(historyManager.getHistory());
+        System.out.println(manager.getHistory());
 
 
     }

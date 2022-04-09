@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    LinkedList<Task> history = new LinkedList<>();
+    private LinkedList<Task> history = new LinkedList<>();
 
     /**
      * Добавляет задачу в историю
@@ -21,8 +21,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (history.size() >= 10) {
             history.removeFirst();
         }
-        if (!history.contains(task))
-            history.add(task);
+        history.add(task);
     }
 
     /**

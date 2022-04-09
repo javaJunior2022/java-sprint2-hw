@@ -7,6 +7,7 @@ import model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -152,7 +153,10 @@ public class InMemoryTaskManager implements TaskManager {
         for (Map.Entry entry : epics.entrySet()) {
             Epic epic = (Epic) entry.getValue();
             Subtask subtask = epic.getSubtaskByID(subtaskID);
-            historyManager.add(subtask);
+            if (!(subtask == null)) {
+                historyManager.add(subtask);
+            }
+
         }
         return null;
     }
@@ -189,8 +193,7 @@ public class InMemoryTaskManager implements TaskManager {
      *
      * @param epic
      */
-    @Override
-    public void updateEpicStatus(Epic epic) {
+    private void updateEpicStatus(Epic epic) {
         /**
          если у эпика нет подзадач или все они имеют статус NEW, то статус должен быть NEW.
          если все подзадачи имеют статус DONE, то и эпик считается завершённым — со статусом DONE.
@@ -249,8 +252,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public HistoryManager getHistoryManager() {
-        return historyManager;
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
     }
 
     /**

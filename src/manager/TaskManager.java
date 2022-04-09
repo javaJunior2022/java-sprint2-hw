@@ -35,8 +35,6 @@ public interface TaskManager {
 
     void deleteEpicByID(int epicID);
 
-    void updateEpicStatus(Epic epic);
-
     List<Task> getTasksList();
 
     void deleteAllTasks();
@@ -49,7 +47,7 @@ public interface TaskManager {
 
     void updateTask(Task task);
 
-    HistoryManager getHistoryManager();
+    List<Task> getHistory();
 
     void updateTaskStatus(Task task, Status status);
 
