@@ -18,10 +18,11 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public void add(Task task) {
         // в истории хранятся только 10 последних задач
-        if (history.size()>=9){
+        if (history.size() >= 10) {
             history.removeFirst();
         }
-        history.add(task);
+        if (!history.contains(task))
+            history.add(task);
     }
 
     /**

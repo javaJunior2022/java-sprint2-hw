@@ -1,4 +1,5 @@
-package manager;/*
+package manager;
+/*
  *author s.timofeev 08.04.2022
  */
 
@@ -8,8 +9,7 @@ import model.Subtask;
 import model.Task;
 
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public interface TaskManager {
 
@@ -48,4 +48,10 @@ public interface TaskManager {
     void deleteTaskByID(int taskID);
 
     void updateTask(Task task);
+
+    HistoryManager getHistoryManager();
+
+    void updateTaskStatus(Task task, Status status);
+
+    Subtask getSubtaskByID(int subtaskID);
 }

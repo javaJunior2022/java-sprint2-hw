@@ -21,12 +21,34 @@ public class Epic extends Task {
         this.subtasks = subtasks;
     }
 
+    /**
+     * Вовзращает все подзадачи
+     *
+     * @return
+     */
     public ArrayList<Subtask> getSubtasks() {
-        if (subtasks==null){
+        if (subtasks == null) {
             return new ArrayList<>();
-        }else{
+        } else {
             return subtasks;
         }
+    }
+
+    /**
+     * Возвращает подзадачу по указанному ID
+     *
+     * @param subtaskID
+     * @return
+     */
+    public Subtask getSubtaskByID(int subtaskID) {
+        if (subtasks == null) return null;
+
+        for (Subtask e : subtasks) {
+            if (e.getId() == subtaskID) {
+                return e;
+            }
+        }
+        return null;
     }
 
     public Epic setSubtasks(ArrayList<Subtask> subtasks) {
@@ -40,6 +62,7 @@ public class Epic extends Task {
 
     /**
      * добавление подзадачи в список эпика
+     *
      * @param subtask
      */
     public void addSubtasks(Subtask subtask) {
