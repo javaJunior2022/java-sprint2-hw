@@ -4,16 +4,12 @@ package manager;/*
 
 public class Managers {
 
-    private static InMemoryHistoryManager inMemoryHistoryManager;
-    private static InMemoryTaskManager inMemoryTaskManager;
+    private static HistoryManager inMemoryHistoryManager;
+    private static TaskManager inMemoryTaskManager;
 
     static {
         inMemoryHistoryManager = new InMemoryHistoryManager();
         inMemoryTaskManager = new InMemoryTaskManager();
-    }
-
-    public static TaskManager getManager() {
-        return new InMemoryTaskManager();
     }
 
     public static TaskManager getDefault() {

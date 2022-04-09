@@ -10,7 +10,7 @@ import model.Subtask;
 
 public class Test {
     public static void performTest() {
-        TaskManager manager = Managers.getManager();
+        TaskManager manager = Managers.getDefault();
 
         Task task1 = new Task("task1", "description task1");
         Task task2 = new Task("task2", "description task2");
