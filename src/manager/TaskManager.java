@@ -45,6 +45,8 @@ public interface TaskManager {
 
     void deleteTaskByID(int taskID);
 
+    void deleteSubtaskByID(int subtaskID);
+
     void updateTask(Task task);
 
     List<Task> getHistory();

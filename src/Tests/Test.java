@@ -86,12 +86,31 @@ public class Test {
        System.out.println(manager.getHistory());
         System.out.println("--------------------------------------");
 
-        System.out.println("Удаление эпика 1, должны пропасть подзадачи и эпик из истории");
-        manager.deleteEpicByID(epic1.getId());
+        System.out.println("Просмотр ПОДЗАДАЧИ 3");
+        manager.getSubtaskByID(subtask3.getId());
+        System.out.println(manager.getHistory());
+        System.out.println("--------------------------------------");
+
+        System.out.println("Удаление ПОДЗАДАЧИ 3");
+        manager.deleteSubtaskByID(subtask3.getId());
+        System.out.println(manager.getHistory());
+        System.out.println("--------------------------------------");
+
+        System.out.println("Удаление всех подзадач ");
+        manager.deleteAllSubtasks();
         System.out.println(manager.getHistory());
         System.out.println("--------------------------------------");
 
 
+        System.out.println("Удаление всех ЗАДАЧ ");
+        manager.deleteAllTasks();
+        System.out.println(manager.getHistory());
+        System.out.println("--------------------------------------");
+
+        System.out.println("Удаление эпика 1, должны пропасть подзадачи и эпик из истории");
+        manager.deleteEpicByID(epic1.getId());
+        System.out.println(manager.getHistory());
+        System.out.println("--------------------------------------");
 
     }
 }
