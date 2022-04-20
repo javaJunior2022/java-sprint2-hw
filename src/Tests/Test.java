@@ -93,23 +93,5 @@ public class Test {
 
 
 
-
-
-        return;
-
-
-//
-//
-//
-
-//
-//        Epic epic2 = new Epic("epic2 EMPTY", "Description epic 2 EMpTY");
-//        manager.addNewEpic(epic2);
-//
-//        manager.getTaskByID(task1.getId());
-//
-//        return;
-
-
     }
 }
