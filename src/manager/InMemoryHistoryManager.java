@@ -9,7 +9,7 @@ import java.util.*;
 public class InMemoryHistoryManager implements HistoryManager {
 
     private CustomLinkedList history = new CustomLinkedList(); // двунаправленный список для хранения истории
-    private HashMap<Integer, Node> historyHashMap = new HashMap<>();
+    protected HashMap<Integer, Node> historyHashMap = new HashMap<>();
 
     /**
      * Добавляет задачу в историю
@@ -86,6 +86,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         /**
          * размер списка
+         *
          * @return
          */
         public int size() {

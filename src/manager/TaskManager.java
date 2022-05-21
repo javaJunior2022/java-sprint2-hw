@@ -41,6 +41,8 @@ public interface TaskManager {
 
     Task getTaskByID(int taskID);
 
+    Task findTaskByID(int taskID);
+
     Task addNewTask(Task task);
 
     void deleteTaskByID(int taskID);

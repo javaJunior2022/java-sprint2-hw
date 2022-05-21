@@ -13,9 +13,9 @@ import java.util.Map;
 public class InMemoryTaskManager implements TaskManager {
 
     private int id = 0;// уникальный нумератор
-    private final HashMap<Integer, Task> tasks = new HashMap<>(); // Список задач
-    private final HashMap<Integer, Epic> epics = new HashMap<>();// Список эпиков
-    private HistoryManager historyManager = new InMemoryHistoryManager();
+    protected final HashMap<Integer, Task> tasks = new HashMap<>(); // Список задач
+    protected final HashMap<Integer, Epic> epics = new HashMap<>();// Список эпиков
+    protected HistoryManager historyManager = new InMemoryHistoryManager();
 
     /**
      * Получение списка всех подзадач
@@ -282,6 +282,27 @@ public class InMemoryTaskManager implements TaskManager {
         Task task = tasks.get(taskID);
         historyManager.add(task);// добавление в историю задач
         return task;
+    }
+
+    /**
+     * возвращает задачу
+     * @param taskID
+     * @return
+     */
+    @Override
+    public Task findTaskByID(int taskID) {
+        Task task=tasks.get(taskID);
+        Epic epic=epics.get(taskID);
+        Subtask subtask=getSubtaskByID(taskID);
+        if (task!=null){
+            return task;
+        }else if(epic!=null){
+            return epic;
+        }else if(subtask!=null){
+            return subtask;
+        }
+
+        return null;
     }
 
     /**
