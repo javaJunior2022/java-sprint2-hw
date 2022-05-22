@@ -285,20 +285,34 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     /**
-     * возвращает задачу
+     * возвращает задачу по ID, вне зависимости от типа самой задачи
+     *
      * @param taskID
      * @return
      */
     @Override
     public Task findTaskByID(int taskID) {
-        Task task=tasks.get(taskID);
-        Epic epic=epics.get(taskID);
-        Subtask subtask=getSubtaskByID(taskID);
-        if (task!=null){
+        Task task = tasks.get(taskID);
+        Epic epic = epics.get(taskID);
+        Subtask subtask = null;
+
+        if (epic != null) {
+            ArrayList<Subtask> subtasks = epic.getSubtasks();
+            if (subtasks != null) {
+                for (Subtask e : subtasks) {
+                    if (e.getId() == taskID) {
+                        subtask = e;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (task != null) {
             return task;
-        }else if(epic!=null){
+        } else if (epic != null) {
             return epic;
-        }else if(subtask!=null){
+        } else if (subtask != null) {
             return subtask;
         }
 

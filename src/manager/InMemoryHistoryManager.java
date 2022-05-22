@@ -8,7 +8,7 @@ import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private CustomLinkedList history = new CustomLinkedList(); // двунаправленный список для хранения истории
+    protected CustomLinkedList history = new CustomLinkedList(); // двунаправленный список для хранения истории
     protected HashMap<Integer, Node> historyHashMap = new HashMap<>();
 
     /**
