@@ -18,23 +18,32 @@ public class Task {
     private String name;
     private String description;
     private Status status;
+    private TypeTask typeTask;
+
 
     public Task(int id, String name, String description, Status status) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;
+        this.typeTask=setTypeTask();
     }
 
     public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
         this.status = status;
+        this.typeTask=setTypeTask();
+    }
+
+    public TypeTask getTypeTask() {
+        return typeTask;
     }
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
+        this.typeTask=setTypeTask();
     }
 
     public int getId() {
@@ -49,8 +58,6 @@ public class Task {
     public String getName() {
         return name;
     }
-
-
 
     public void setName(String name) {
         this.name = name;
@@ -72,7 +79,16 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
 
+    public TypeTask setTypeTask() {
+    TypeTask typeTask=TypeTask.TASK;
+        if (getClass().getSimpleName().equals("Subtask")){
+            typeTask=TypeTask.SUBTASK;
+        }else if(getClass().getSimpleName().equals("Epic")){
+            typeTask=TypeTask.EPIC;
+        }
+        return typeTask;
     }
 
     @Override

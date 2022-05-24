@@ -17,6 +17,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected final HashMap<Integer, Epic> epics = new HashMap<>();// Список эпиков
     protected HistoryManager historyManager = new InMemoryHistoryManager();
 
+
     /**
      * Получение списка всех подзадач
      *
@@ -386,6 +387,15 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTaskStatus(Task task, Status status) {
         task.setStatus(status);
+    }
+
+    /**
+     * установка ID нумератора задач, необходима при загрузке данных из файла
+     *
+     * @param id
+     */
+    protected void setId(int id) {
+        this.id = id;
     }
 
 }

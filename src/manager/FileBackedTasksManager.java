@@ -1,9 +1,6 @@
 package manager;
 
-import model.Epic;
-import model.Status;
-import model.Subtask;
-import model.Task;
+import model.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -107,7 +104,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         return String.join(",",
                 String.valueOf(task.getId()),
-                task.getClass().getSimpleName(),
+                String.valueOf(task.getTypeTask()),
                 task.getName(),
                 String.valueOf(task.getStatus()),
                 task.getDescription());
@@ -123,7 +120,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         return String.join(",",
                 String.valueOf(task.getId()),
-                task.getClass().getSimpleName(),
+                String.valueOf(task.getTypeTask()),
                 task.getName(),
                 String.valueOf(task.getStatus()),
                 task.getDescription(),
@@ -194,31 +191,35 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private void loadTaskFromFile(String[] data) {
 
         int id = Integer.parseInt(data[0]);
-        String type = data[1];// данные по типу таска получаем из файла, обрабатывая соответствующий кейс
+        TypeTask typeTask = TypeTask.getTypeTaskByString(data[1]);// данные по типу таска получаем из файла, обрабатывая соответствующий кейс
         String name = data[2];
         Status status = Status.getStatusByString(data[3]); // статус из файла приводим к перечислению
         String description = data[4];
 
         // в зависимсости от типа задачи, создаем объект
         // и добавляем их в соответствующие структуры для хранения
-        switch (type) {
-            case "Task" -> {
+        switch (typeTask) {
+            case TASK -> {
                 Task task = new Task(id, name, description, status);
+                setId(id);
                 tasks.put(id, task);
             }
-            case "Epic" -> {
+            case EPIC -> {
                 Epic epic = new Epic(id, name, description, status);
+                setId(id);
                 epics.put(id, epic);
             }
-            case "Subtask" -> {
+            case SUBTASK -> {
                 int epicID = Integer.parseInt(data[5]);
                 Subtask subtask = new Subtask(id, name, description, status, epicID);
+                setId(id);
                 Epic epic = epics.get(epicID);
                 // получаю список сабтасков по эпику и добавляю
                 ArrayList<Subtask> subtasks = getSubtasksByEpic(epic);
                 if (!subtasks.contains(subtask)) {
                     subtasks.add(subtask);
                 }
+                epic.setSubtasks(subtasks);
             }
         }
     }
