@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import  java.util.Objects;
 /**
  * Задача
@@ -16,9 +17,37 @@ import  java.util.Objects;
 public class Task {
     private int id;
     private String name;
+
+
     private String description;
     private Status status;
     private TypeTask typeTask;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private long duration;
+
+
+    public Task(int id, String name, String description, Status status, TypeTask typeTask, LocalDateTime startTime, LocalDateTime endTime, long duration) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.typeTask = typeTask;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.endTime = startTime.plusMinutes(duration);
+
+    }
+    public Task(int id,String name, String description, Status status,  LocalDateTime startTime, long duration) {
+        this.id=id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.endTime = startTime.plusMinutes(duration);
+
+    }
 
 
     public Task(int id, String name, String description, Status status) {
@@ -35,6 +64,8 @@ public class Task {
         this.status = status;
         this.typeTask=setTypeTask();
     }
+
+
 
     public TypeTask getTypeTask() {
         return typeTask;
