@@ -225,7 +225,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 epics.put(id, epic);
             }
             case SUBTASK -> {
-                int epicID = Integer.parseInt(data[5]);
+                int epicID = Integer.parseInt(data[8]);
                 startTime = LocalDateTime.parse(data[5]);
                 duration = Long.parseLong(data[6]);
                 endTime = LocalDateTime.parse(data[7]);

@@ -22,8 +22,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void init() {
         task = new Task("Task init 1", "Tasks description init1",
-                Status.NEW, LocalDateTime.now(), 15);
-        task.setTypeTask();
+                Status.NEW, LocalDateTime.now(), 15,TypeTask.TASK);
         manager.addNewTask(task);
         manager.getTaskByID(task.getId());
         // создание эпика
@@ -43,13 +42,12 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void getPrioritizedTasks() {
         Task task1 = new Task("Task init 11", "Tasks description init1",
-                Status.NEW, LocalDateTime.now().plusMinutes(4000), 15);
-        task1.setTypeTask();
+                Status.NEW, LocalDateTime.now().plusMinutes(4000), 15,TypeTask.TASK);
 
         manager.addNewTask(task1);
 
         Task task2 = new Task("Task init 2", "Tasks description init1",
-                Status.NEW, LocalDateTime.now().minusMinutes(3600), 15);
+                Status.NEW, LocalDateTime.now().minusMinutes(3600), 15,TypeTask.TASK);
 
         manager.addNewTask(task2);
         assertTrue(manager.getPrioritizedTasks().size() > 0, "Priority list is empty");
@@ -58,31 +56,30 @@ abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     void tasksCrossing() {
         Task task1 = new Task("Task init 11", "Tasks description init1",
-                Status.NEW, LocalDateTime.now().plusMinutes(4000), 15);
-        task1.setTypeTask();
+                Status.NEW, LocalDateTime.now().plusMinutes(4000), 15,TypeTask.TASK);
+
         assertFalse(manager.timeIsCrossed(task1), "TTime is crossing, it is wrong");
         manager.addNewTask(task1);
 
         Task task2 = new Task("Task init 2", "Tasks description init1",
-                Status.NEW, LocalDateTime.now().minusMinutes(3600), 15);
+                Status.NEW, LocalDateTime.now().minusMinutes(3600), 15,TypeTask.TASK);
         assertFalse(manager.timeIsCrossed(task2), "Time is crossing, it is wrong");
         manager.addNewTask(task2);
 
         Task task3 = new Task("Task init 3", "Tasks description init1",
-                Status.NEW, LocalDateTime.now().minusMinutes(7200), 15);
+                Status.NEW, LocalDateTime.now().minusMinutes(7200), 15,TypeTask.TASK);
         assertFalse(manager.timeIsCrossed(task3), "Time is crossing, it is wrong");
 
         manager.addNewTask(task3);
 
         Task task4 = new Task("Task init 4", "Tasks description init1",
-                Status.NEW, LocalDateTime.now().plusMinutes(70), 15);
+                Status.NEW, LocalDateTime.now().plusMinutes(70), 15,TypeTask.TASK);
         assertFalse(manager.timeIsCrossed(task4), "Time is crossing, it is wrong");
         manager.addNewTask(task4);
         Task task5 = new Task("Task 5 cross", "Tasks description 5",
-                Status.NEW, LocalDateTime.now().plusMinutes(60), 15);
+                Status.NEW, LocalDateTime.now().plusMinutes(60), 15,TypeTask.TASK);
         assertTrue(manager.timeIsCrossed(task5), "Task 5 and 4 are crossed by the time");
-        //manager.addNewTask(task5);
-    }
+     }
 
     @Test
     void subtasksListIsEmpty() {
@@ -134,8 +131,9 @@ abstract class TaskManagerTest<T extends TaskManager> {
         subtask2.setEpicID(epic2.getId());
         manager.addNewSubtask(subtask2);
 
-        manager.updateSubtaskStatus(subtask1, Status.DONE);
-        manager.updateSubtaskStatus(subtask2, Status.DONE);
+        subtask1.setStatus(Status.DONE);
+        subtask2.setStatus(Status.DONE);
+        manager.updateEpicAdditionInformation(epic2);
 
         assertEquals(Status.DONE, epic2.getStatus(), "If all subtasks have DONE status, EPIC must be DONE");
     }
@@ -160,8 +158,10 @@ abstract class TaskManagerTest<T extends TaskManager> {
         subtask2.setEpicID(epic2.getId());
         manager.addNewSubtask(subtask2);
 
-        manager.updateSubtaskStatus(subtask1, Status.NEW);
-        manager.updateSubtaskStatus(subtask2, Status.DONE);
+        subtask1.setStatus(Status.NEW);
+        subtask2.setStatus(Status.DONE);
+        manager.updateEpicAdditionInformation(epic2);
+
 
         assertEquals(Status.IN_PROGRESS, epic2.getStatus(),
                 "If subtasks have NEW and DONE status, EPIC must be IN_PROGRESS");
@@ -197,9 +197,10 @@ abstract class TaskManagerTest<T extends TaskManager> {
         subtask3.setEpicID(epic2.getId());
         manager.addNewSubtask(subtask3);
 
-        manager.updateSubtaskStatus(subtask1, Status.NEW);
-        manager.updateSubtaskStatus(subtask2, Status.DONE);
-        manager.updateSubtaskStatus(subtask3, Status.IN_PROGRESS);
+        subtask1.setStatus(Status.NEW);
+        subtask2.setStatus(Status.DONE);
+        subtask3.setStatus(Status.IN_PROGRESS);
+        manager.updateEpicAdditionInformation(epic2);
 
         assertEquals(Status.IN_PROGRESS, epic2.getStatus(),
                 "If  subtasks have NEW,  DONE and, IN_PROGRESS status, EPIC must be IN_PROGRESS");
@@ -270,8 +271,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     void updateSubtaskStatus() {
-        // manager.updateSubtaskStatus(subtask,Status.IN_PROGRESS);
-        //assertEquals(Status.IN_PROGRESS, subtask.getStatus(), "Method updateSubtaskStatus  IN_PROGRESS does not work well");
+        subtask.setStatus(Status.IN_PROGRESS);
+        assertEquals(Status.IN_PROGRESS, subtask.getStatus(), "Method updateSubtaskStatus  IN_PROGRESS does not work well");
     }
 
     @Test
@@ -325,7 +326,29 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void getSubtaskByID() {
         assertEquals(subtask, manager.getSubtaskByID(subtask.getId()), "Can' get the subtask by ID");
     }
+@Test
+void TaskType(){
+        Task task1=new Task("task N","Description",Status.NEW,
+                LocalDateTime.now(),60,TypeTask.TASK);
+        assertEquals(TypeTask.TASK,task1.getTypeTask(),"New TASK is not TypeTask.TASK)");
+}
 
+    @Test
+    void EpicType(){
+        Epic epic1=new Epic ("EPIC N","Description");
+        assertEquals(TypeTask.EPIC,epic1.getTypeTask(),"New EPIC is not TypeTask.EPIC)");
+    }
+
+    @Test
+    void SubtaskType(){
+        Epic epic1=new Epic ("EPIC N","Description");
+        manager.addNewEpic(epic1);
+        Subtask subtask1=new Subtask("Subtask", "Subtask description",LocalDateTime.now(),50);
+        subtask1.setEpicID(epic1.getId());
+        manager.addNewSubtask(subtask1);
+
+        assertEquals(TypeTask.SUBTASK,subtask1.getTypeTask(),"New SUBTASK is not TypeTask.SUBTASK)");
+    }
 
     @Test
     void deleteEpicByID() {
@@ -341,7 +364,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
     void getTasksList() {
         manager.deleteAllTasks();
         Task task1 = new Task("Test task", "Description test task",
-                Status.NEW, LocalDateTime.now(), 40);
+                Status.NEW, LocalDateTime.now(), 40,TypeTask.TASK);
         manager.addNewTask(task1);
         final List<Task> tasks = manager.getTasksList();
         assertEquals(1, tasks.size(), "Task List has more than 1 task");
@@ -357,8 +380,8 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     void getHistoryTask() {
-        Task task1 = new Task("task h", "description task h", Status.NEW, LocalDateTime.now(), 100);
-        task1.setTypeTask();
+        Task task1 = new Task("task h", "description task h", Status.NEW,
+                LocalDateTime.now(), 100,TypeTask.TASK);
         manager.addNewTask(task1);
         manager.getTaskByID(task1.getId());
 
@@ -419,7 +442,7 @@ abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     void updateTaskStatus() {
-        manager.updateTaskStatus(task, Status.IN_PROGRESS);
+        task.setStatus(Status.IN_PROGRESS);
         assertEquals(Status.IN_PROGRESS, task.getStatus(), "Method updateTaskStatus  IN_PROGRESS does not work well");
 
     }

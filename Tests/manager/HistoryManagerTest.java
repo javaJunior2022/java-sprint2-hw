@@ -2,6 +2,7 @@ package manager;
 
 import model.Status;
 import model.Task;
+import model.TypeTask;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,7 @@ class HistoryManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @Test
     void add() {
         Task task1 = new Task("Task init 1", "Tasks description init1",
-                Status.NEW, LocalDateTime.now(), 15);
+                Status.NEW, LocalDateTime.now(), 15, TypeTask.TASK);
         manager.addNewTask(task1);
         manager.getTaskByID(task1.getId());
         // должен увидеть таск в истории
@@ -32,7 +33,7 @@ class HistoryManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @Test
     void remove() {
         Task task1 = new Task("Task init 1", "Tasks description init1",
-                Status.NEW, LocalDateTime.now(), 15);
+                Status.NEW, LocalDateTime.now(), 15,TypeTask.TASK);
         manager.addNewTask(task1);
         manager.getTaskByID(task1.getId());
         // удаляю таск, и должен удалиться из истории
@@ -44,9 +45,9 @@ class HistoryManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @Test
     void getHistory() {
         Task task1 = new Task("Task history", "Description",
-                Status.NEW, LocalDateTime.now(), 15);
+                Status.NEW, LocalDateTime.now(), 15,TypeTask.TASK);
         Task task2 = new Task("Task history2", "Description2",
-                Status.NEW, LocalDateTime.now().plusMinutes(40), 15);
+                Status.NEW, LocalDateTime.now().plusMinutes(40), 15,TypeTask.TASK);
         manager.addNewTask(task1);
         manager.addNewTask(task2);
         manager.getTaskByID(task1.getId());

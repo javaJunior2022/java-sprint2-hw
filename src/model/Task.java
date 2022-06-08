@@ -13,16 +13,32 @@ import java.util.Objects;
  * NEW — задача только создана, но к её выполнению ещё не приступили.
  * IN_PROGRESS — над задачей ведётся работа.
  * DONE — задача выполнена.
+ * <p>
+ * Добавьте новые поля в задачи:
+ * duration — продолжительность задачи, оценка того, сколько времени она займёт в минутах (число);
+ * startTime — дата, когда предполагается приступить к выполнению задачи.
+ * getEndTime() — время завершения задачи, которое рассчитывается исходя из startTime и duration.
+ * Менять сигнатуры методов интерфейса TaskManager не понадобится: при создании
+ * или обновлении задач все его методы будут принимать и возвращать объект,
+ * в который вы добавите два новых поля.
+ * С классом Epic придётся поработать дополнительно.
+ * Продолжительность эпика — сумма продолжительности всех его подзадач.
+ * Время начала — дата старта самой ранней подзадачи,
+ * а время завершения — время окончания самой поздней из задач.
+ * Новые поля duration и startTime этого класса будут расчётные — аналогично полю статус.
+ * Для реализации getEndTime() удобно добавить поле endTime в Epic
+ * и рассчитать его вместе с другими полями.
  */
 
 public class Task {
     private int id;
     private String name;
-
-
     private String description;
     private Status status;
     private TypeTask typeTask;
+    protected LocalDateTime startTime;
+    protected LocalDateTime endTime;
+    protected long duration;
 
     public Task(int id, String name, String description, Status status,
                 LocalDateTime startTime, long duration, LocalDateTime endTime) {
@@ -33,7 +49,19 @@ public class Task {
         this.startTime = startTime;
         this.endTime = endTime;
         this.duration = duration;
-        this.typeTask = setTypeTask();
+        this.typeTask = TypeTask.TASK;
+    }
+
+    public Task(int id, String name, String description, Status status,
+                LocalDateTime startTime, long duration, LocalDateTime endTime, TypeTask typeTask) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.duration = duration;
+        this.typeTask = typeTask;
     }
 
     public LocalDateTime getStartTime() {
@@ -48,12 +76,9 @@ public class Task {
         return duration;
     }
 
-    protected LocalDateTime startTime;
-    protected LocalDateTime endTime;
-    protected long duration;
 
-
-    public Task(String name, String description, Status status, LocalDateTime startTime, long duration) {
+    public Task(String name, String description, Status status,
+                LocalDateTime startTime, long duration, TypeTask typeTask) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -61,22 +86,23 @@ public class Task {
         this.startTime = startTime;
         this.duration = duration;
         this.endTime = startTime.plusMinutes(duration);
-        this.setTypeTask();
+        this.typeTask = typeTask;
 
     }
 
-    public Task(String name, String description, LocalDateTime startTime, long duration) {
+    public Task(String name, String description, LocalDateTime startTime, long duration, TypeTask typeTask) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.startTime = startTime;
         this.duration = duration;
         this.endTime = startTime.plusMinutes(duration);
-        this.typeTask = setTypeTask();
+        this.typeTask = typeTask;
 
     }
 
-    public Task(int id, String name, String description, Status status, LocalDateTime startTime, long duration) {
+    public Task(int id, String name, String description, Status status,
+                LocalDateTime startTime, long duration, TypeTask typeTask) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -84,22 +110,21 @@ public class Task {
         this.startTime = startTime;
         this.duration = duration;
         this.endTime = startTime.plusMinutes(duration);
-        this.typeTask = setTypeTask();
-
+        this.typeTask = typeTask;
     }
 
-    public Task(String name, String description) {
+    public Task(String name, String description, TypeTask typeTask) {
         this.name = name;
         this.description = description;
-        this.typeTask = setTypeTask();
+        this.typeTask = typeTask;
     }
 
-    public Task(int id, String name, String description, Status status) {
+    public Task(int id, String name, String description, Status status, TypeTask typeTask) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;
-        this.typeTask = setTypeTask();
+        this.typeTask = typeTask;
     }
 
     public TypeTask getTypeTask() {
@@ -138,18 +163,6 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public TypeTask setTypeTask() {
-        TypeTask typeTask = TypeTask.TASK;
-        if (getClass().getSimpleName().equals("Subtask")) {
-            typeTask = TypeTask.SUBTASK;
-        } else if (getClass().getSimpleName().equals("Epic")) {
-            typeTask = TypeTask.EPIC;
-        } else
-            typeTask = TypeTask.TASK;
-        this.typeTask = typeTask;
-        return typeTask;
     }
 
     @Override

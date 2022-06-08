@@ -19,8 +19,6 @@ public interface TaskManager {
 
     Subtask addNewSubtask(Subtask subtask);
 
-    void updateSubtaskStatus(Subtask subtask, Status status);
-
     Epic addNewEpic(Epic epic);
 
     List<Epic> getEpicsList();
@@ -55,11 +53,11 @@ public interface TaskManager {
 
     void deleteSubtaskByID(int subtaskID);
 
+    void updateEpicAdditionInformation(Epic epic);
+
     void updateTask(Task task);
 
     List<Task> getHistory();
-
-    void updateTaskStatus(Task task, Status status);
 
     Subtask getSubtaskByID(int subtaskID);
 }
