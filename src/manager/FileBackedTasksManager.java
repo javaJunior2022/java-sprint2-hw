@@ -3,6 +3,7 @@ package manager;
 import model.*;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +108,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 String.valueOf(task.getTypeTask()),
                 task.getName(),
                 String.valueOf(task.getStatus()),
-                task.getDescription());
+                task.getDescription(),
+                String.valueOf(task.getStartTime()),
+                String.valueOf(task.getDuration()),
+                String.valueOf(task.getEndTime()));
     }
 
     /**
@@ -124,6 +128,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 task.getName(),
                 String.valueOf(task.getStatus()),
                 task.getDescription(),
+                task.getStartTime().toString(),
+                Long.toString(task.getDuration()),
+                task.getEndTime().toString(),
                 String.valueOf(task.getEpicID()));
     }
 
@@ -137,7 +144,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         List<String> list = new ArrayList<>();
 
         for (Task t : manager.getHistory()) {
-            list.add(String.valueOf(t.getId()));
+            if (t != null) {
+                list.add(String.valueOf(t.getId()));
+            }
         }
         return String.join(",", list);
     }
@@ -151,7 +160,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         try {
             final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
             // заголовок
-            bufferedWriter.append("id,type,name,status,description,epic");
+            bufferedWriter.append("id,type,name,status,description,startTime,endTime,duration,epic");
             bufferedWriter.newLine();
 
             // tasks
@@ -195,12 +204,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         String name = data[2];
         Status status = Status.getStatusByString(data[3]); // статус из файла приводим к перечислению
         String description = data[4];
+        LocalDateTime startTime = null;
+        long duration = 0;
+        LocalDateTime endTime = null;
 
         // в зависимсости от типа задачи, создаем объект
         // и добавляем их в соответствующие структуры для хранения
         switch (typeTask) {
             case TASK -> {
-                Task task = new Task(id, name, description, status);
+                startTime = LocalDateTime.parse(data[5]);
+                duration = Long.parseLong(data[6]);
+                endTime = LocalDateTime.parse(data[7]);
+                Task task = new Task(id, name, description, status, startTime, duration, endTime);
                 setId(id);
                 tasks.put(id, task);
             }
@@ -211,7 +226,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             }
             case SUBTASK -> {
                 int epicID = Integer.parseInt(data[5]);
-                Subtask subtask = new Subtask(id, name, description, status, epicID);
+                startTime = LocalDateTime.parse(data[5]);
+                duration = Long.parseLong(data[6]);
+                endTime = LocalDateTime.parse(data[7]);
+                Subtask subtask = new Subtask(id, name, description, status, epicID, startTime, duration, endTime);
                 setId(id);
                 Epic epic = epics.get(epicID);
                 // получаю список сабтасков по эпику и добавляю
@@ -220,6 +238,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     subtasks.add(subtask);
                 }
                 epic.setSubtasks(subtasks);
+
+            }
+            default -> {
+
             }
         }
     }
@@ -256,7 +278,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
                 String[] data = line.split(",");
                 // вначале загружаем данные по задачам, эпикам и их подзадачам
-                if (data.length == 5 || data.length == 6) {
+                if (data.length == 8 || data.length == 9) {
                     loadTaskFromFile(data);
                 }
 
@@ -285,5 +307,4 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public static void main(String[] args) {
         loadFromFile(new File("tasks.csv"));
     }
-
 }

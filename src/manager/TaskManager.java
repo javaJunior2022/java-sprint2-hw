@@ -37,7 +37,13 @@ public interface TaskManager {
 
     List<Task> getTasksList();
 
+    List<Task> getPrioritizedTasks();
+
+    boolean timeIsCrossed(Task task);
+
     void deleteAllTasks();
+
+    void deleteAllEpics();
 
     Task getTaskByID(int taskID);
 

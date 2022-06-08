@@ -8,7 +8,7 @@ public class Node {
     Node previous;//link to the previous node;
     Task data;// data as a task
 
-    public Node(Task data,Node next, Node previous ) {
+    public Node(Task data, Node next, Node previous) {
         this.next = next;
         this.previous = previous;
         this.data = data;

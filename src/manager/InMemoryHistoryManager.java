@@ -46,6 +46,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         return history.getTasks();
     }
 
+
     /**
      * CustomLinkedList
      */
@@ -64,6 +65,9 @@ public class InMemoryHistoryManager implements HistoryManager {
          */
         public void linkLast(Task data) {
 
+            if (data == null) {
+                return;
+            }
             size++;
             Node newNode;
 
@@ -77,6 +81,10 @@ public class InMemoryHistoryManager implements HistoryManager {
                 // и добавить новую, в конец
                 if (historyHashMap.containsKey(data.getId())) {
                     remove(data.getId());
+                }
+                // могли удалить задачу
+                if (tail == null) {
+                    linkLast(data);
                 }
                 tail.next = newNode;
                 tail = newNode;

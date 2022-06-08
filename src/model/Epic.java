@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -56,6 +57,34 @@ public class Epic extends Task {
         return this;
     }
 
+    /**
+     * Устанавливает дату начала работы с эпиком
+     *
+     * @param startTime
+     */
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    /**
+     * Устанавливает дату окончания работы с эпиком
+     *
+     * @param startTime
+     */
+
+    public void setEndTime(LocalDateTime startTime) {
+        this.endTime = startTime;
+    }
+
+    /**
+     * Устанавливает продолжительность эпика
+     *
+     * @param duration
+     */
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
+
     public void deleteSubtasks() {
         subtasks.clear();
     }
@@ -70,5 +99,4 @@ public class Epic extends Task {
             subtasks.add(subtask);
         }
     }
-
 }

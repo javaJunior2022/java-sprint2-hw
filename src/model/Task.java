@@ -1,7 +1,8 @@
 package model;
 
 import java.time.LocalDateTime;
-import  java.util.Objects;
+import java.util.Objects;
+
 /**
  * Задача
  * У задачи есть следующие свойства:
@@ -22,59 +23,87 @@ public class Task {
     private String description;
     private Status status;
     private TypeTask typeTask;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private long duration;
 
-
-    public Task(int id, String name, String description, Status status, TypeTask typeTask, LocalDateTime startTime, LocalDateTime endTime, long duration) {
+    public Task(int id, String name, String description, Status status,
+                LocalDateTime startTime, long duration, LocalDateTime endTime) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;
-        this.typeTask = typeTask;
         this.startTime = startTime;
+        this.endTime = endTime;
         this.duration = duration;
-        this.endTime = startTime.plusMinutes(duration);
-
+        this.typeTask = setTypeTask();
     }
-    public Task(int id,String name, String description, Status status,  LocalDateTime startTime, long duration) {
-        this.id=id;
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    protected LocalDateTime startTime;
+    protected LocalDateTime endTime;
+    protected long duration;
+
+
+    public Task(String name, String description, Status status, LocalDateTime startTime, long duration) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;
         this.startTime = startTime;
         this.duration = duration;
         this.endTime = startTime.plusMinutes(duration);
+        this.setTypeTask();
 
     }
 
+    public Task(String name, String description, LocalDateTime startTime, long duration) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.endTime = startTime.plusMinutes(duration);
+        this.typeTask = setTypeTask();
+
+    }
+
+    public Task(int id, String name, String description, Status status, LocalDateTime startTime, long duration) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.startTime = startTime;
+        this.duration = duration;
+        this.endTime = startTime.plusMinutes(duration);
+        this.typeTask = setTypeTask();
+
+    }
+
+    public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.typeTask = setTypeTask();
+    }
 
     public Task(int id, String name, String description, Status status) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;
-        this.typeTask=setTypeTask();
+        this.typeTask = setTypeTask();
     }
-
-    public Task(String name, String description, Status status) {
-        this.name = name;
-        this.description = description;
-        this.status = status;
-        this.typeTask=setTypeTask();
-    }
-
-
 
     public TypeTask getTypeTask() {
         return typeTask;
-    }
-
-    public Task(String name, String description) {
-        this.name = name;
-        this.description = description;
-        this.typeTask=setTypeTask();
     }
 
     public int getId() {
@@ -101,7 +130,6 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
-
     }
 
     public Status getStatus() {
@@ -113,12 +141,14 @@ public class Task {
     }
 
     public TypeTask setTypeTask() {
-    TypeTask typeTask=TypeTask.TASK;
-        if (getClass().getSimpleName().equals("Subtask")){
-            typeTask=TypeTask.SUBTASK;
-        }else if(getClass().getSimpleName().equals("Epic")){
-            typeTask=TypeTask.EPIC;
-        }
+        TypeTask typeTask = TypeTask.TASK;
+        if (getClass().getSimpleName().equals("Subtask")) {
+            typeTask = TypeTask.SUBTASK;
+        } else if (getClass().getSimpleName().equals("Epic")) {
+            typeTask = TypeTask.EPIC;
+        } else
+            typeTask = TypeTask.TASK;
+        this.typeTask = typeTask;
         return typeTask;
     }
 
@@ -137,13 +167,13 @@ public class Task {
 
     @Override
     public String toString() {
-        return "\n"+ "model.Task{" +
+        return "\n" + "model.Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 '}';
     }
-
-
 }

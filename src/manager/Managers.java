@@ -13,11 +13,19 @@ public class Managers {
     static {
         inMemoryHistoryManager = new InMemoryHistoryManager();
         inMemoryTaskManager = new InMemoryTaskManager();
-        fileBackedTasksManager=new FileBackedTasksManager(new File("tasks.csv"));
+        fileBackedTasksManager = new FileBackedTasksManager(new File("tasks.csv"));
     }
 
     public static TaskManager getDefault() {
-       // return inMemoryTaskManager;
+        // return inMemoryTaskManager;
+        return fileBackedTasksManager;
+    }
+
+    public static TaskManager getInMemoryTaskManager() {
+        return inMemoryTaskManager;
+    }
+
+    public static TaskManager getFileBackedTasksManager() {
         return fileBackedTasksManager;
     }
 
