@@ -35,6 +35,7 @@ public class InMemoryTaskManager implements TaskManager {
     public ArrayList<Subtask> getSubtasksList() {
         ArrayList<Subtask> subtasks = new ArrayList<>();
         // добавляем все подзадачи из всех эпиков
+
         for (Map.Entry entry : epics.entrySet()) {
             Epic epic = (Epic) entry.getValue();
             subtasks.addAll(epic.getSubtasks());

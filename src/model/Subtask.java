@@ -40,4 +40,17 @@ public class Subtask extends Task {
         this.epicID = epicID;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "\n" + "model.Subtask{" +
+                "id=" + super.getId() +
+                ", name='" + super.getName() + '\'' +
+                ", description='" + super.getDescription() + '\'' +
+                ", status=" + super.getStatus() +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", epicID=" + epicID +
+                '}';
+    }
 }

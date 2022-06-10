@@ -178,6 +178,10 @@ public class Task {
         return Objects.hash(id, name, description, status);
     }
 
+    public void setTypeTask(TypeTask typeTask) {
+        this.typeTask = typeTask;
+    }
+
     @Override
     public String toString() {
         return "\n" + "model.Task{" +

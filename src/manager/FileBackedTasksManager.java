@@ -8,13 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class FileBackedTasksManager extends InMemoryTaskManager {
+public  class FileBackedTasksManager extends InMemoryTaskManager {
     private final File file;
 
     public FileBackedTasksManager(File file) {
         this(file, false);
     }
-
+    public FileBackedTasksManager() {
+       this.file=null;
+    }
 
     public FileBackedTasksManager(File file, boolean load) {
         this.file = file;
@@ -155,7 +157,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     /**
      * Сохранение данных в файл
      */
-    private void save() {
+    protected void save() {
 
         try {
             final BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
@@ -304,7 +306,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         final FileBackedTasksManager manager = new FileBackedTasksManager(file, true);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, InterruptedException {
         loadFromFile(new File("tasks.csv"));
     }
 }
