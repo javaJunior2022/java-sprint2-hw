@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public  class FileBackedTasksManager extends InMemoryTaskManager {
+public class FileBackedTasksManager extends InMemoryTaskManager {
     private final File file;
 
     public FileBackedTasksManager(File file) {
         this(file, false);
     }
+
     public FileBackedTasksManager() {
-       this.file=null;
+        this.file = null;
     }
 
     public FileBackedTasksManager(File file, boolean load) {
@@ -268,7 +269,7 @@ public  class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    private void load() {
+    protected void load() {
         try (final BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line = bufferedReader.readLine();// заголовки пропускаем
 

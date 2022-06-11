@@ -14,7 +14,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     /**
      * Добавляет задачу в историю
      *
-     * @param task
+     * @param task task
      */
     @Override
     public void add(Task task) {
@@ -24,7 +24,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     /**
      * Удаляет задачу из просмотра
      *
-     * @param id
+     * @param id int id
      */
     @Override
     public void remove(int id) {
@@ -61,7 +61,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         /**
          * add a new node (data) at the end if head is not null
          *
-         * @param data
+         * @param data Task data
          */
         public void linkLast(Task data) {
 
@@ -95,7 +95,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         /**
          * размер списка
          *
-         * @return
+         * @return int size
          */
         public int size() {
             return size;

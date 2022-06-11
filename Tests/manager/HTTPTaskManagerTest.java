@@ -70,7 +70,7 @@ class HTTPTaskManagerTest {
 //        httpTaskManager.addNewSubtask(subtask2);
         // System.out.println(manager.getSubtasksList());
       //  String t=httpTaskManager.kvTaskClient.load("TASKS");
-        httpTaskManager.restoreDataFromServer();
+        httpTaskManager.load();
         System.out.println(httpTaskManager.tasks);
 
 //

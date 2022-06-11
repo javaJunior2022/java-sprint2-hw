@@ -28,7 +28,7 @@ public class KVServer {
     }
 
     private void load(HttpExchange h) throws IOException {
-        if (!hasAuth(h)){
+        if (!hasAuth(h)) {
             System.out.println("Has no authentication");
             h.sendResponseHeaders(400, 0);
             return;
@@ -39,13 +39,13 @@ public class KVServer {
             h.sendResponseHeaders(400, 0);
             return;
         }
-        String value=data.get(key);
+        String value = data.get(key);
         byte[] resp = value.getBytes(UTF_8);
         h.getResponseHeaders().add("Content-Type", "application/json");
         h.sendResponseHeaders(200, resp.length);
         h.getResponseBody().write(resp);
 
-         h.close();
+        h.close();
     }
 
     private void save(HttpExchange h) throws IOException {
@@ -101,6 +101,7 @@ public class KVServer {
         System.out.println("API_TOKEN: " + apiToken);
         server.start();
     }
+
     public void stop() {
         server.stop(1);
     }

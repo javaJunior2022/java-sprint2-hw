@@ -1,8 +1,6 @@
 package manager;
 
-
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -14,48 +12,24 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.time.LocalDateTime;
 
-
-public class HttpTaskServer extends FileBackedTasksManager {
+/**
+ * класс HttpTaskServer слушает порт 8080 и принимает запросы.
+ */
+public class HttpTaskServer {
 
     private static final int PORT = 8080;
-    private static HTTPTaskManager httpTaskManager;
+    public static TaskManager httpTaskManager;
 
 
-    public HttpTaskServer() throws IOException, InterruptedException {
+    public HttpTaskServer() throws IOException {
         HttpServer httpServer = HttpServer.create();
-        httpTaskManager = new HTTPTaskManager("http://localhost:8078");
-
         httpServer.bind(new InetSocketAddress(PORT), 0);
         httpServer.createContext("/tasks", new requestHandler());
         httpServer.start();
 
+        httpTaskManager = Managers.getDefault();
 
-    }
-
-
-    public static void main(String[] args) throws IOException, InterruptedException {
-        // starting server
-        KVServer kvServer = new KVServer();
-        kvServer.start();
-
-        HttpTaskServer httpTaskServer = new HttpTaskServer();
-
-
-        // create a task
-        Task task = new Task("task1", "description",
-                Status.NEW, LocalDateTime.now(), 15, TypeTask.TASK);
-        httpTaskManager.addNewTask(task);
-        System.out.println(httpTaskServer.getTasksList());
-
-    }
-
-
-    public static Gson getGson() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new manager.LocalDateTimeAdapter());
-        return gsonBuilder.create();
     }
 
     static class requestHandler implements HttpHandler {
@@ -89,7 +63,7 @@ public class HttpTaskServer extends FileBackedTasksManager {
 
             int id;
             String response;
-            Gson gson = getGson();
+            Gson gson = Managers.getGson();
 
 
             switch (type.toUpperCase()) {
@@ -138,7 +112,7 @@ public class HttpTaskServer extends FileBackedTasksManager {
             String[] splitParam;
 
             int id;
-            String response="Success";
+            String response = "Success";
 
             switch (type.toUpperCase()) {
                 case "DELETALLTASKS" -> httpTaskManager.deleteAllTasks();
@@ -171,7 +145,7 @@ public class HttpTaskServer extends FileBackedTasksManager {
             String[] splitStrings = path.split("/");
             String type = splitStrings[splitStrings.length - 1];
             String response = "Success";
-            Gson gson = getGson();
+            Gson gson = Managers.getGson();
 
             InputStream inputStream = httpExchange.getRequestBody();
             String body = new String(inputStream.readAllBytes(), Charset.defaultCharset());

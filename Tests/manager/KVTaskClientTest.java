@@ -26,7 +26,7 @@ class KVTaskClientTest {
 
         KVTaskClient kvTaskClient = new KVTaskClient("http://localhost:8078");
 
-        Gson gson = getGson();
+        Gson gson = Managers.getGson();
         // create a task
         Task task = new Task("task1", "desription",
                 Status.NEW, LocalDateTime.now(), 15, TypeTask.TASK);
@@ -37,13 +37,5 @@ class KVTaskClientTest {
         assertEquals(toJson, fromJson, "KV server methods put and load do not work well");
         kvServer.stop();
 
-    }
-
-
-
-    public static Gson getGson() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new manager.LocalDateTimeAdapter());
-        return gsonBuilder.create();
     }
 }
